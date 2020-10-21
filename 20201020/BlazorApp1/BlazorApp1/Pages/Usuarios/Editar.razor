@@ -1,0 +1,25 @@
+﻿@page "/usuarios/editar/{id:int}"
+@using BlazorApp1.Data
+
+<EditForm Model="@Usuario" OnValidSubmit="@Guardar">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText @bind-Value="Usuario.Nombre" />
+
+    <button type="submit">Guardar</button>
+</EditForm>
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    public Usuario Usuario { get; set; } = new Usuario();
+
+
+    private void Guardar()
+    {
+
+    }
+}
