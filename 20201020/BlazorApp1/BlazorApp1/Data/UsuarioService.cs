@@ -15,9 +15,28 @@ namespace BlazorApp1.Data
             context = _context;
         }
 
+        public async Task<Usuario> Get(int id)
+        {
+            return await context.Usuarios.Where(i=>i.Id==id).SingleAsync();
+        }
+
         public async Task<List<Usuario>> GetAll()
         {
             return await context.Usuarios.ToListAsync();
+        }
+
+        public async Task<Usuario> Save(Usuario value)
+        {
+            if (value.Id == 0)
+            {
+                await context.Usuarios.AddAsync(value);
+            }
+            else
+            {
+                context.Usuarios.Update(value);
+            }
+            await context.SaveChangesAsync();
+            return value;
         }
     }
 }
