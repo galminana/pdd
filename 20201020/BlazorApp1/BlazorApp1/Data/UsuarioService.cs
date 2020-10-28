@@ -38,5 +38,13 @@ namespace BlazorApp1.Data
             await context.SaveChangesAsync();
             return value;
         }
+
+        public async Task<bool> Remove(int id)
+        {
+            var entidad = await context.Usuarios.Where(i => i.Id == id).SingleAsync();
+            context.Usuarios.Remove(entidad);
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }

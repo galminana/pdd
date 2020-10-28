@@ -50,7 +50,8 @@ else
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Desea elimiar el usuario?");
         if (confirmed)
         {
-            
+            await service.Remove(id);
+            usuarios = await service.GetAll();
         }
     }
 }
