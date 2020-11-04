@@ -3,15 +3,44 @@
 @inject UsuarioService service
 @inject NavigationManager navigation
 
-
 <EditForm Model="@Modelo" OnValidSubmit="@Guardar">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-    <InputText @bind-Value="Modelo.Nombre" />
-    <InputText @bind-Value="Modelo.Apodo" />
-    <InputText @bind-Value="Modelo.Clave" />
-
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Nombre
+        </label>
+        <div class="col-sm-10">
+            <InputText @bind-Value="Modelo.Nombre" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Nombre
+        </label>
+        <InputText @bind-Value="Modelo.Apodo" />
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Nombre
+        </label>
+        <InputText @bind-Value="Modelo.Clave" />
+    </div>
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">
+            Nombre
+        </label>
+        <InputDate @bind-Value="fecha" />
+    </div>
+    <div class="form-group row">
+        <InputSelect @bind-Value="RolId">
+            <option value="0">Elija un rol</option>
+            @foreach(var item in roles)
+            {
+                <option value="@item.Id">@item.Nombre</option>
+            }
+        </InputSelect>
+    </div>
     <button type="submit">Guardar</button>
 </EditForm>
 
@@ -21,22 +50,33 @@
     public int Id { get; set; }
 
     public Usuario Modelo { get; set; } = new Usuario();
+    
+    public string RolId { get; set; }
+    
+    public DateTime fecha { get; set; }
+
+    private List<Rol> roles;
+
 
     protected override async Task OnInitializedAsync()
     {
         if (Id > 0)
         {
             Modelo = await service.Get(Id);
+            RolId = Modelo.RolId.ToString();
+
         }
         else
         {
             Modelo = new Usuario();
         }
+        roles = await service.GetRoles();
     }
 
 
     private async void Guardar()
     {
+        Modelo.RolId = int.Parse(RolId);
         await service.Save(Modelo);
         navigation.NavigateTo("usuarios/listado");
     }

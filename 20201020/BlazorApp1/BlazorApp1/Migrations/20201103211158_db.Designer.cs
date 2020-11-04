@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorApp1.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201021010244_db")]
+    [Migration("20201103211158_db")]
     partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,20 @@ namespace BlazorApp1.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9");
+
+            modelBuilder.Entity("BlazorApp1.Data.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rol");
+                });
 
             modelBuilder.Entity("BlazorApp1.Data.Tarea", b =>
                 {
@@ -65,7 +79,12 @@ namespace BlazorApp1.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("RolId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuario");
                 });
@@ -75,6 +94,15 @@ namespace BlazorApp1.Migrations
                     b.HasOne("BlazorApp1.Data.TipoTarea", "Tipo")
                         .WithMany()
                         .HasForeignKey("TipoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BlazorApp1.Data.Usuario", b =>
+                {
+                    b.HasOne("BlazorApp1.Data.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

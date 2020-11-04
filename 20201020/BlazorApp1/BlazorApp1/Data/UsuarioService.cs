@@ -46,5 +46,14 @@ namespace BlazorApp1.Data
             await context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<List<Rol>> GetRoles()
+        {
+            return await context.Roles.ToListAsync();
+        }
+
+
+
+
     }
 }

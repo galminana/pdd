@@ -15,6 +15,20 @@ namespace BlazorApp1.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.9");
 
+            modelBuilder.Entity("BlazorApp1.Data.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rol");
+                });
+
             modelBuilder.Entity("BlazorApp1.Data.Tarea", b =>
                 {
                     b.Property<int>("Id")
@@ -63,7 +77,12 @@ namespace BlazorApp1.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("RolId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RolId");
 
                     b.ToTable("Usuario");
                 });
@@ -73,6 +92,15 @@ namespace BlazorApp1.Migrations
                     b.HasOne("BlazorApp1.Data.TipoTarea", "Tipo")
                         .WithMany()
                         .HasForeignKey("TipoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BlazorApp1.Data.Usuario", b =>
+                {
+                    b.HasOne("BlazorApp1.Data.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

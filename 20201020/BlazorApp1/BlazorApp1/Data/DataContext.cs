@@ -17,12 +17,19 @@ namespace BlazorApp1.Data
         {
             modelBuilder.Entity<Usuario>()
                 .ToTable("Usuario")
-                .Property(p => p.Clave);
+                .HasKey(i => i.Id);
+
+            modelBuilder.Entity<Usuario>().Property(p => p.Clave).HasMaxLength(10);
+
             modelBuilder.Entity<Tarea>()
                 .ToTable("Tarea");
+
+            modelBuilder.Entity<Rol>()
+                .ToTable("Rol");
         }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Rol> Roles { get; set; }
 
     }
 }
