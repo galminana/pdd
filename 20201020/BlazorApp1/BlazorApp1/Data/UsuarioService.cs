@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace BlazorApp1.Data
 
         public async Task<List<Usuario>> GetAll()
         {
-            return await context.Usuarios.ToListAsync();
+            return await context.Usuarios.Include(i=>i.Rol).ToListAsync();
         }
 
         public async Task<Usuario> Save(Usuario value)
@@ -45,6 +46,13 @@ namespace BlazorApp1.Data
             context.Usuarios.Remove(entidad);
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<TipoTarea>> GetTipoTareas()
+        {
+            var remoteService = RestService.For<IRemoteService>("https://api.github.com");
+
+            return await remoteService.GetAll();
         }
 
         public async Task<List<Rol>> GetRoles()

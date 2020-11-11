@@ -17,6 +17,7 @@ else
         <thead>
             <tr>
                 <th>Nombre</th>
+                <th>Rol</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -25,6 +26,7 @@ else
             {
             <tr>
                 <td>@item.Nombre</td>
+                <td>@item.Rol.Nombre</td>
                 <td><button class="btn" @onclick="()=>Editar(item.Id)">Editar</button> <button class="btn" @onclick="()=>Borrar(item.Id)">Borrar</button></td>
             </tr>
             }
