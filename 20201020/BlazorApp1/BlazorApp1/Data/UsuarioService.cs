@@ -3,6 +3,7 @@ using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BlazorApp1.Data
@@ -28,16 +29,18 @@ namespace BlazorApp1.Data
 
         public async Task<Usuario> Save(Usuario value)
         {
-            if (value.Id == 0)
-            {
-                await context.Usuarios.AddAsync(value);
-            }
-            else
-            {
-                context.Usuarios.Update(value);
-            }
-            await context.SaveChangesAsync();
-            return value;
+            //if (value.Id == 0)
+            //{
+            //    await context.Usuarios.AddAsync(value);
+            //}
+            //else
+            //{
+            //    context.Usuarios.Update(value);
+            //}
+            //await context.SaveChangesAsync();
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44332/api/");
+            return await remoteService.GuardarUsuario(value);
+
         }
 
         public async Task<bool> Remove(int id)
@@ -50,10 +53,18 @@ namespace BlazorApp1.Data
 
         public async Task<List<TipoTarea>> GetTipoTareas()
         {
-            var remoteService = RestService.For<IRemoteService>("https://api.github.com");
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44332/api/");
+            return await remoteService.GetAllTipoTarea();
 
-            return await remoteService.GetAll();
         }
+
+        public async Task<TipoTarea> GuardaTipoTarea(TipoTarea valor)
+        {
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44332/api/");
+            return await remoteService.CrearTipoTarea(valor);
+
+        }
+
 
         public async Task<List<Rol>> GetRoles()
         {

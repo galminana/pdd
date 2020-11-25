@@ -41,6 +41,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         usuarios = await service.GetAll();
+        var tipo = await service.GuardaTipoTarea(new TipoTarea { Nombre = "blazor" });
+        var tipos = await service.GetTipoTareas();
     }
 
     protected void Editar(int id)

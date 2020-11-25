@@ -24,5 +24,21 @@ namespace WebApplication1.Controllers
         {
             return _context.TipoTareas.ToList();
         }
+
+        [HttpPost]
+        public TipoTarea Post(TipoTarea valor)
+        {
+            if (valor.Id == 0)
+            {
+            _context.TipoTareas.Add(valor);
+            }
+            else
+            {
+                _context.TipoTareas.Attach(valor);
+                _context.TipoTareas.Update(valor);
+            }
+            _context.SaveChanges();
+            return valor;
+        }
     }
 }
