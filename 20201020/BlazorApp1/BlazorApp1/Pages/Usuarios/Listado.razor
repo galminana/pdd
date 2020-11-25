@@ -24,11 +24,11 @@ else
         <tbody>
             @foreach (var item in usuarios)
             {
-            <tr>
-                <td>@item.Nombre</td>
-                <td>@item.Rol.Nombre</td>
-                <td><button class="btn" @onclick="()=>Editar(item.Id)">Editar</button> <button class="btn" @onclick="()=>Borrar(item.Id)">Borrar</button></td>
-            </tr>
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Rol.Nombre</td>
+                    <td><button class="btn" @onclick="()=>Editar(item.Id)">Editar</button> <button class="btn" @onclick="()=>Borrar(item.Id)">Borrar</button></td>
+                </tr>
             }
         </tbody>
     </table>
@@ -41,7 +41,15 @@ else
     protected override async Task OnInitializedAsync()
     {
         usuarios = await service.GetAll();
-        var tipo = await service.GuardaTipoTarea(new TipoTarea { Nombre = "blazor" });
+
+        var valor = new TipoTarea();
+        valor.Nombre = "blazor";
+        await service.GuardaTipoTarea(valor);
+
+
+        //var tipo = await service.GuardaTipoTarea(new TipoTarea { Nombre = "blazor" });
+        var tipo = await service.GetTipoTarea(2);
+
         var tipos = await service.GetTipoTareas();
     }
 

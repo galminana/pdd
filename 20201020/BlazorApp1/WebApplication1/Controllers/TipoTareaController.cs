@@ -25,8 +25,14 @@ namespace WebApplication1.Controllers
             return _context.TipoTareas.ToList();
         }
 
+        [HttpGet("{id}")]
+        public TipoTarea Get(int id)
+        {
+            return _context.TipoTareas.Where(i=>i.Id==id).Single();
+        }
+
         [HttpPost]
-        public TipoTarea Post(TipoTarea valor)
+        public IActionResult Post(TipoTarea valor)
         {
             if (valor.Id == 0)
             {
@@ -38,7 +44,7 @@ namespace WebApplication1.Controllers
                 _context.TipoTareas.Update(valor);
             }
             _context.SaveChanges();
-            return valor;
+            return Ok(valor);
         }
     }
 }

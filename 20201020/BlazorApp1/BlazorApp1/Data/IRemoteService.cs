@@ -11,11 +11,17 @@ namespace BlazorApp1.Data
         [Get("/TipoTarea")]
         Task<List<TipoTarea>> GetAllTipoTarea();
 
+        [Get("/TipoTarea/{id}")]
+        Task<TipoTarea> GetTipoTarea(int id);
+
         [Post("/TipoTarea")]
         Task<TipoTarea> CrearTipoTarea(TipoTarea valor);
 
         [Get("/Usuario")]
-        Task<List<TipoTarea>> GetAllUsuario();
+        Task<List<Usuario>> GetAllUsuario();
+
+        [Get("/Usuario/{id}")]
+        Task<Usuario> GetUsuario(int id);
 
         [Post("/Usuario")]
         Task<Usuario> GuardarUsuario(Usuario valor);

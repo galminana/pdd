@@ -19,7 +19,9 @@ namespace BlazorApp1.Data
 
         public async Task<Usuario> Get(int id)
         {
-            return await context.Usuarios.Where(i=>i.Id==id).SingleAsync();
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44332/api/");
+            return await remoteService.GetUsuario(id);
+            //return await context.Usuarios.Where(i=>i.Id==id).SingleAsync();
         }
 
         public async Task<List<Usuario>> GetAll()
@@ -49,6 +51,13 @@ namespace BlazorApp1.Data
             context.Usuarios.Remove(entidad);
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<TipoTarea> GetTipoTarea(int id)
+        {
+            var remoteService = RestService.For<IRemoteService>("https://localhost:44332/api/");
+            return await remoteService.GetTipoTarea(id);
+
         }
 
         public async Task<List<TipoTarea>> GetTipoTareas()
