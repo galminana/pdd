@@ -49,8 +49,9 @@ else
 
         //var tipo = await service.GuardaTipoTarea(new TipoTarea { Nombre = "blazor" });
         var tipo = await service.GetTipoTarea(2);
-
-        var tipos = await service.GetTipoTareas();
+        tipo.Nombre = "prueba";
+        await service.GuardaTipoTarea(tipo);
+        //var tipos = await service.GetTipoTareas();
     }
 
     protected void Editar(int id)

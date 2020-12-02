@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Model.Entidades;
 using WebApplication1.Data;
 
@@ -34,14 +35,18 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult Post(TipoTarea valor)
         {
+            var local = _context.TipoTareas.Local.FirstOrDefault(e => e.Id.Equals(valor.Id));
+
+            if (local != null)
+                _context.Entry(local).State = EntityState.Detached;
+
             if (valor.Id == 0)
             {
-            _context.TipoTareas.Add(valor);
+                _context.Entry(valor).State = EntityState.Added;
             }
             else
             {
-                _context.TipoTareas.Attach(valor);
-                _context.TipoTareas.Update(valor);
+                _context.Entry(valor).State = EntityState.Modified;
             }
             _context.SaveChanges();
             return Ok(valor);
